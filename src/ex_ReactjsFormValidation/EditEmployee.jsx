@@ -66,7 +66,7 @@ export default function EditEmployee(props) {
     );
   };
 
-  const currentFormData = {
+  const itemEmployee = {
     id: formData.id ?? getItemEmployee?.id ?? "",
     name: formData.name ?? getItemEmployee?.name ?? "",
     phone: formData.phone ?? getItemEmployee?.phone ?? "",
@@ -74,14 +74,15 @@ export default function EditEmployee(props) {
   };
 
   const disable =
-    !currentFormData.id ||
-    !currentFormData.name ||
-    !currentFormData.phone ||
-    !currentFormData.email;
+    !itemEmployee.id ||
+    !itemEmployee.name ||
+    !itemEmployee.phone ||
+    !itemEmployee.email;
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    disPatch(onUpdateItemEmployee(currentFormData));
+    disPatch(onUpdateItemEmployee(itemEmployee));
+    onClose();
   };
 
   return (
@@ -131,15 +132,13 @@ export default function EditEmployee(props) {
                   Mã nhân viên
                 </label>
                 <input
+                  disabled
                   type="text"
                   name="id"
-                  value={currentFormData.id}
-                  // onChange={(e) =>
-                  //   setFormData((prev) => ({ ...prev, id: e.target.value }))
-                  // }
+                  value={itemEmployee.id}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="disabled:bg-gray-400 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
                 {validEmployee.id && alertValidFields(validEmployee.id)}
               </div>
@@ -153,10 +152,7 @@ export default function EditEmployee(props) {
                 <input
                   type="text"
                   name="name"
-                  value={currentFormData.name}
-                  // onChange={(e) =>
-                  //   setFormData((prev) => ({ ...prev, name: e.target.value }))
-                  // }
+                  value={itemEmployee.name}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -173,10 +169,7 @@ export default function EditEmployee(props) {
                 <input
                   type="number"
                   name="phone"
-                  value={currentFormData.phone}
-                  // onChange={(e) =>
-                  //   setFormData((prev) => ({ ...prev, phone: e.target.value }))
-                  // }
+                  value={itemEmployee.phone}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -193,10 +186,7 @@ export default function EditEmployee(props) {
                 <input
                   type="email"
                   name="email"
-                  value={currentFormData.email}
-                  // onChange={(e) =>
-                  //   setFormData((prev) => ({ ...prev, email: e.target.value }))
-                  // }
+                  value={itemEmployee.email}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
