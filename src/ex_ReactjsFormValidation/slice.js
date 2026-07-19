@@ -42,6 +42,9 @@ const manageEmployeeSlice = createSlice({
         state.employee = { id: "", name: "", phone: "", email: "" };
       }
     },
+    clearItemEmployee: (state) => {
+      state.employee = { id: "", name: "", phone: "", email: "" };
+    },
     onUpdateItemEmployee: (state, action) => {
       const { payload } = action;
       const index = findIndexEmployee(state.listArr, payload.id);
@@ -72,6 +75,7 @@ const manageEmployeeSlice = createSlice({
 export const {
   onAddItemEmployee,
   onGetItemEmployee,
+  clearItemEmployee,
   onUpdateItemEmployee,
   onDeleteItemEmployee,
   onConfirmDeleteEmployee,

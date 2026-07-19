@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { onUpdateItemEmployee } from "./slice";
+import { useEffect, useState } from "react";
+import { onUpdateItemEmployee, clearItemEmployee } from "./slice";
 
 export default function EditEmployee(props) {
   const { open, onClose } = props;
   const [formData, setFormData] = useState({
-    id: null,
-    name: null,
-    phone: null,
-    email: null,
+    id: "",
+    name: "",
+    phone: "",
+    email: "",
   });
 
   const [validEmployee, setValidEmployee] = useState({
@@ -21,6 +22,14 @@ export default function EditEmployee(props) {
   const getItemEmployee = useSelector(
     (state) => state.manageEmployeeSlice.employee,
   );
+
+  useEffect(() => {
+    if (getItemEmployee) {
+      setFormData({
+        ...getItemEmployee,
+      });
+    }
+  }, [getItemEmployee]);
 
   const disPatch = useDispatch();
 
@@ -66,22 +75,12 @@ export default function EditEmployee(props) {
     );
   };
 
-  const itemEmployee = {
-    id: formData.id ?? getItemEmployee?.id ?? "",
-    name: formData.name ?? getItemEmployee?.name ?? "",
-    phone: formData.phone ?? getItemEmployee?.phone ?? "",
-    email: formData.email ?? getItemEmployee?.email ?? "",
-  };
-
   const disable =
-    !itemEmployee.id ||
-    !itemEmployee.name ||
-    !itemEmployee.phone ||
-    !itemEmployee.email;
+    !formData.id || !formData.name || !formData.phone || !formData.email;
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    disPatch(onUpdateItemEmployee(itemEmployee));
+    disPatch(onUpdateItemEmployee(formData));
     onClose();
   };
 
@@ -103,7 +102,10 @@ export default function EditEmployee(props) {
             <button
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                disPatch(clearItemEmployee());
+              }}
             >
               <svg
                 aria-hidden="true"
@@ -135,7 +137,7 @@ export default function EditEmployee(props) {
                   disabled
                   type="text"
                   name="id"
-                  value={itemEmployee.id}
+                  value={formData.id}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="disabled:bg-gray-400 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -152,7 +154,7 @@ export default function EditEmployee(props) {
                 <input
                   type="text"
                   name="name"
-                  value={itemEmployee.name}
+                  value={formData.name}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -169,7 +171,7 @@ export default function EditEmployee(props) {
                 <input
                   type="number"
                   name="phone"
-                  value={itemEmployee.phone}
+                  value={formData.phone}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -186,7 +188,7 @@ export default function EditEmployee(props) {
                 <input
                   type="email"
                   name="email"
-                  value={itemEmployee.email}
+                  value={formData.email}
                   onChange={onChangeFields}
                   onBlur={onBlurValidFields}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { onAddItemEmployee } from "./slice";
+import { onAddItemEmployee, clearItemEmployee } from "./slice";
 
 export default function Form() {
   const disPatch = useDispatch();
@@ -66,6 +66,7 @@ export default function Form() {
   const onAddEmployee = (e) => {
     e.preventDefault();
     disPatch(onAddItemEmployee(employee));
+    disPatch(clearItemEmployee());
     setEmployee({
       maNV: "",
       hoTen: "",
