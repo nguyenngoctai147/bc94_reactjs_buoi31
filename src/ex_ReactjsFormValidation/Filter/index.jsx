@@ -1,20 +1,10 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { onFilterItem } from "./../slice";
 
 export default function Filter() {
-  const [search, setSearch] = useState({
-    searchForm: "",
-  });
-
   const disPatch = useDispatch();
-
   const handleOnChangeSearch = (e) => {
-    const { name, value } = e.target;
-    setSearch({
-      ...search,
-      [name]: value,
-    });
+    const value = e.target.value;
     disPatch(onFilterItem(value));
   };
 
