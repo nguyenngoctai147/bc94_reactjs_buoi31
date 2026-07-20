@@ -4,6 +4,7 @@ const initialState = {
   listArr: [],
   employee: { id: "", name: "", phone: "", email: "" },
   delSelectItem: null,
+  keyword: "",
 };
 
 const findIndexEmployee = (data, id) => {
@@ -38,8 +39,6 @@ const manageEmployeeSlice = createSlice({
       const clone = [...state.listArr];
       if (index !== -1) {
         state.employee = clone[index];
-      } else {
-        state.employee = { id: "", name: "", phone: "", email: "" };
       }
     },
     clearItemEmployee: (state) => {
@@ -49,12 +48,7 @@ const manageEmployeeSlice = createSlice({
       const { payload } = action;
       const index = findIndexEmployee(state.listArr, payload.id);
       if (index !== -1) {
-        state.listArr[index] = {
-          id: payload.id,
-          name: payload.name,
-          phone: payload.phone,
-          email: payload.email,
-        };
+        state.listArr[index] = payload;
         state.employee = state.listArr[index];
       }
     },
@@ -69,6 +63,10 @@ const manageEmployeeSlice = createSlice({
       const { payload } = action;
       state.listArr.splice(payload, 1);
     },
+    onFilterItem: (state, action) => {
+      const { payload } = action;
+      state.keyword = payload;
+    },
   },
 });
 
@@ -79,6 +77,7 @@ export const {
   onUpdateItemEmployee,
   onDeleteItemEmployee,
   onConfirmDeleteEmployee,
+  onFilterItem,
 } = manageEmployeeSlice.actions;
 
 export default manageEmployeeSlice.reducer;
